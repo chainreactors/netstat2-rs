@@ -8,6 +8,7 @@ fn main() {
     match os.as_str() {
         "macos" | "ios" => {
             let bindings = bindgen::builder()
+                .rust_target(bindgen::RustTarget::Stable_1_77)
                 .header_contents("libproc_rs.h", "#include <libproc.h>")
                 .layout_tests(false)
                 .clang_args(&[
@@ -15,6 +16,8 @@ fn main() {
                     "c++",
                     "-I",
                     "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/",
+                    "-I",
+                    "/opt/osxcross/SDK/MacOSX11.3.sdk/usr/include/"
                 ])
                 .generate()
                 .expect("Failed to build libproc bindings");
